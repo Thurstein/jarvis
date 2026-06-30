@@ -1,0 +1,42 @@
+# Bytecode
+**/__pycache__/
+*.py[cod]
+
+# Entornos virtuales
+.venv/
+venv/
+env/
+
+# Base de datos local
+memory/memories.db
+
+# Archivos temporales
+*.tmp
+*.log
+
+# Configuración de VS Code
+.vscode/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db
+
+# Variables de entorno
+.env
+
+# Cachés
+.pytest_cache/
+.mypy_cache/
+
+# Audio temporal
+*.wav
+*.mp3
+
+# Modelos descargados (si algún día los guardas dentro del proyecto)
+models/
+
+# Git
+.git/
+
+# Herramientas externas
+nircmd/

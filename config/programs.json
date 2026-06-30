@@ -1,0 +1,16 @@
+{
+    "notepad": "notepad",
+    "calculadora": "calc",
+    "calc": "calc",
+    "explorer" : "explorer",
+    "explorador de archivos" : "explorer",
+
+    "vscode": "C:\\Users\\Guillermo\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "vs code": "C:\\Users\\Guillermo\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+    "visual studio code": "C:\\Users\\Guillermo\\AppData\\Local\\Programs\\Microsoft VS Code\\Code.exe",
+
+    "vivaldi": "C:\\Users\\Guillermo\\AppData\\Local\\Vivaldi\\Application\\vivaldi.exe",
+    "aimp": "C:\\Program Files\\AIMP\\AIMP.exe",
+    "imp": "C:\\Program Files\\AIMP\\AIMP.exe",
+    "aplicación de música": "C:\\Program Files\\AIMP\\AIMP.exe"
+}
