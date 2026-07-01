@@ -1,6 +1,7 @@
 from pathlib import Path
 from memory import workspace
 import subprocess
+import unicodedata
 import os
 
 SEARCH_ROOTS = [
@@ -11,6 +12,26 @@ SEARCH_ROOTS = [
     Path.home() / "Desktop",
     Path.home() / "Downloads",
 ]
+
+KNOWN_FOLDERS = {
+    "music": Path.home() / "Music",
+    "musica": Path.home() / "Music",
+
+    "documents": Path.home() / "Documents",
+    "documentos": Path.home() / "Documents",
+
+    "downloads": Path.home() / "Downloads",
+    "descargas": Path.home() / "Downloads",
+
+    "desktop": Path.home() / "Desktop",
+    "escritorio": Path.home() / "Desktop",
+
+    "pictures": Path.home() / "Pictures",
+    "imagenes": Path.home() / "Pictures",
+
+    "videos": Path.home() / "Videos",
+    "videos": Path.home() / "Videos",
+}
 
 def _iter_filesystem(files=True, directories=True):
     """
@@ -42,12 +63,12 @@ def find_file(name: str) -> str:
     Devuelve la ruta completa de los archivos encontrados.
     """
 
-    name = name.lower()
+    name = _clean_text(name)
     matches = []
 
     for file in _iter_filesystem(files=True, directories=False):
 
-        if name in file.name.lower():
+        if name in _clean_text(file.name):
 
             matches.append(file)
 
@@ -123,7 +144,9 @@ def open_file(path: str) -> str:
     if not p.parent.exists():
         return "La carpeta indicada no existe."
 
-    target = _normalize_name(p.name)
+    target = _normalize_name(
+        _clean_text(p.name)
+    )
 
     # Buscar coincidencia aproximada
     for file in p.parent.iterdir():
@@ -131,7 +154,11 @@ def open_file(path: str) -> str:
         if not file.is_file():
             continue
 
-        if _normalize_name(file.name) == target:
+        if (
+            _normalize_name(
+                _clean_text(file.name)
+            ) == target
+        ):
 
             os.startfile(str(file))
             return f"Archivo abierto: {file.name}"
@@ -140,38 +167,18 @@ def open_file(path: str) -> str:
 
 def _find_directory(name: str):
 
-    name = name.lower().strip()
+    name = _clean_text(name)
 
     # Si el modelo envía una ruta parcial, nos quedamos
     # solamente con el último directorio.
-    name = Path(name).name.lower()
+    name = _clean_text(Path(name).name)
 
     # Carpetas principales del perfil de Windows
-    known_folders = {
-        "music": Path.home() / "Music",
-        "música": Path.home() / "Music",
-        "musica": Path.home() / "Music",
 
-        "documents": Path.home() / "Documents",
-        "documentos": Path.home() / "Documents",
 
-        "downloads": Path.home() / "Downloads",
-        "descargas": Path.home() / "Downloads",
+    if name in KNOWN_FOLDERS:
 
-        "desktop": Path.home() / "Desktop",
-        "escritorio": Path.home() / "Desktop",
-
-        "pictures": Path.home() / "Pictures",
-        "imágenes": Path.home() / "Pictures",
-        "imagenes": Path.home() / "Pictures",
-
-        "videos": Path.home() / "Videos",
-        "vídeos": Path.home() / "Videos",
-    }
-
-    if name in known_folders:
-
-        folder = known_folders[name]
+        folder = KNOWN_FOLDERS[name]
 
         if folder.exists():
             return [folder]
@@ -193,7 +200,7 @@ def _find_directory(name: str):
             if folder.stat().st_file_attributes & 0x2:
                 continue
 
-            if name in folder.name.lower():
+            if name in _clean_text(folder.name):
 
                 matches.append(folder)
 
@@ -205,6 +212,23 @@ def _find_directory(name: str):
 
     return matches
 
+def _clean_text(text: str) -> str:
+    """
+    Normaliza un texto para facilitar búsquedas:
+    - minúsculas
+    - sin tildes
+    - sin espacios al inicio/final
+    """
+
+    text = text.lower().strip()
+
+    text = unicodedata.normalize("NFD", text)
+    text = "".join(
+        c for c in text
+        if unicodedata.category(c) != "Mn"
+    )
+
+    return text
 
 def open_in_explorer(path: str) -> str:
     """
