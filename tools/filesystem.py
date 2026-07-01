@@ -12,14 +12,29 @@ SEARCH_ROOTS = [
     Path.home() / "Downloads",
 ]
 
-def _iter_filesystem():
+def _iter_filesystem(files=True, directories=True):
+    """
+    Recorre el sistema de archivos devolviendo archivos,
+    carpetas o ambos según los parámetros.
+    """
 
     for root in SEARCH_ROOTS:
 
         if not root.exists():
             continue
 
-        yield from root.rglob("*")
+        for item in root.rglob("*"):
+
+            try:
+
+                if item.is_file() and files:
+                    yield item
+
+                elif item.is_dir() and directories:
+                    yield item
+
+            except (PermissionError, OSError):
+                continue
 
 def find_file(name: str) -> str:
     """
@@ -28,39 +43,25 @@ def find_file(name: str) -> str:
     """
 
     name = name.lower()
-
-    search_name = Path(name).stem.lower()
-
     matches = []
 
-    for file in _iter_filesystem():
+    for file in _iter_filesystem(files=True, directories=False):
 
-        if not file.is_file():
-            continue
-
-        if search_name in file.stem.lower():
+        if name in file.name.lower():
 
             matches.append(file)
 
             if len(matches) >= 10:
                 break
 
+    # Eliminar duplicados conservando el orden
+    matches = list(dict.fromkeys(matches))
+
     if not matches:
         return "No encontré ningún archivo."
 
     if len(matches) == 1:
-
-        workspace.set(
-            "last_file",
-            str(matches[0])
-        )
-
         return str(matches[0])
-
-    workspace.set(
-        "last_search",
-        [str(f) for f in matches]
-    )
 
     return "\n".join(str(f) for f in matches)
 
@@ -141,6 +142,10 @@ def _find_directory(name: str):
 
     name = name.lower().strip()
 
+    # Si el modelo envía una ruta parcial, nos quedamos
+    # solamente con el último directorio.
+    name = Path(name).name.lower()
+
     # Carpetas principales del perfil de Windows
     known_folders = {
         "music": Path.home() / "Music",
@@ -173,35 +178,30 @@ def _find_directory(name: str):
 
     matches = []
 
-    for root in SEARCH_ROOTS:
+    for folder in _iter_filesystem(
+        files=False,
+        directories=True
+    ):
 
-        if not root.exists():
-            continue
+        try:
 
-        for folder in root.rglob("*"):
-
-            try:
-
-                if not folder.is_dir():
-                    continue
-
-                # Ignorar junctions (Mi música, Mis imágenes, etc.)
-                if os.path.isjunction(folder):
-                    continue
-
-                # Ignorar carpetas ocultas
-                if folder.stat().st_file_attributes & 0x2:
-                    continue
-
-                if name in folder.name.lower():
-
-                    matches.append(folder)
-
-                    if len(matches) >= 10:
-                        return matches
-
-            except (PermissionError, OSError):
+            # Ignorar junctions (Mi música, Mis imágenes, etc.)
+            if os.path.isjunction(folder):
                 continue
+
+            # Ignorar carpetas ocultas
+            if folder.stat().st_file_attributes & 0x2:
+                continue
+
+            if name in folder.name.lower():
+
+                matches.append(folder)
+
+                if len(matches) >= 10:
+                    return matches
+
+        except (PermissionError, OSError):
+            continue
 
     return matches
 
