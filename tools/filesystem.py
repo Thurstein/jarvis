@@ -137,6 +137,20 @@ def open_file(path: str) -> str:
 
     # Caso 1: existe exactamente
     if p.exists() and p.is_file():
+
+        workspace.set("last_file", str(p))
+
+        suffix = p.suffix.lower()
+
+        if suffix == ".mp3":
+            workspace.set("last_song", str(p))
+
+        elif suffix == ".pdf":
+            workspace.set("last_document", str(p))
+
+        elif suffix in {".png", ".jpg", ".jpeg", ".webp"}:
+            workspace.set("last_image", str(p))
+        
         os.startfile(str(p))
         return f"Archivo abierto: {p.name}"
 
@@ -159,6 +173,19 @@ def open_file(path: str) -> str:
                 _clean_text(file.name)
             ) == target
         ):
+
+            workspace.set("last_file", str(file))
+
+            suffix = p.suffix.lower()
+
+            if suffix == ".mp3":
+                workspace.set("last_song", str(file))
+
+            elif suffix == ".pdf":
+                workspace.set("last_document", str(file))
+
+            elif suffix in {".png", ".jpg", ".jpeg", ".webp"}:
+                workspace.set("last_image", str(file))
 
             os.startfile(str(file))
             return f"Archivo abierto: {file.name}"

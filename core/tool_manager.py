@@ -1,3 +1,5 @@
+from memory import workspace
+
 class ToolManager:
 
     def __init__(self):
@@ -34,7 +36,11 @@ class ToolManager:
 
         result = function(**arguments)
 
-        print(f"[Result] {result}\n")
+        print(f"[Result] {result}")
+
+        print("\n[Workspace]")
+        print(workspace.dump())
+        print()
 
         return result
 

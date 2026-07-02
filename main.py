@@ -1,7 +1,7 @@
 import config
 
 from core.assistant import Assistant
-
+from prompts import SYSTEM_PROMPT
 from tools.filesystem import find_file, open_file, open_in_explorer
 # from tools.explorer import open_in_explorer
 # from tools.open_file import open_file
@@ -20,7 +20,7 @@ from speech.tts import TextToSpeech
 
 
 assistant = Assistant(
-    config.SYSTEM_PROMPT,
+    SYSTEM_PROMPT,
     config.ASSISTANT_NAME
 )
 
