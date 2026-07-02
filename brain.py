@@ -1,4 +1,4 @@
-from ollama import chat
+import ollama
 import config
 
 
@@ -21,7 +21,7 @@ class Brain:
     
     def chat(self, messages, tools=None):
 
-        response = chat(
+        response = ollama.chat(
             model=self.model,
             messages=messages,
             tools=tools,
