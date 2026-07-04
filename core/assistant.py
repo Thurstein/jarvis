@@ -29,13 +29,12 @@ class Assistant:
 
         self.conversation.add_user(user_message)
 
-        response = self.brain.ask(
+        response = self.brain.chat(
             self.conversation.get_messages(),
             self.tool_manager.get_tools()
         )
 
-        # Si el modelo solicita herramientas
-        if response.tool_calls:
+        while response.tool_calls:
 
             # Guardamos la respuesta original del modelo
             self.conversation.add_tool_call(response)
@@ -50,21 +49,13 @@ class Assistant:
                     result
                 )
 
-            # El modelo continúa la conversación con el nuevo contexto
-            final_response = self.brain.continue_chat(
+            # El modelo continúa la conversación
+            response = self.brain.chat(
                 self.conversation.get_messages()
             )
 
-            self.conversation.add_assistant(
-                final_response.content
-            )
-
-            return final_response.content
-
-        # Respuesta normal
         self.conversation.add_assistant(
             response.content
         )
 
         return response.content
-    
