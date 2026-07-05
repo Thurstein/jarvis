@@ -51,7 +51,8 @@ class Assistant:
 
             # El modelo continúa la conversación
             response = self.brain.chat(
-                self.conversation.get_messages()
+                self.conversation.get_messages(),
+                self.tool_manager.get_tools()
             )
 
         self.conversation.add_assistant(
