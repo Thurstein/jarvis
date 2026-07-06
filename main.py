@@ -3,8 +3,7 @@ import config
 from core.assistant import Assistant
 from prompts import SYSTEM_PROMPT
 from tools.filesystem import find_file, open_file, open_in_explorer
-# from tools.explorer import open_in_explorer
-# from tools.open_file import open_file
+
 from tools.programs import open_program
 from tools.browser import open_url
 from tools.volume import set_volume
@@ -13,6 +12,11 @@ from tools.media import (
     next_track,
     previous_track,
     stop_media,
+)
+
+from memory.long_term import (
+    remember_text,
+    recall_text,
 )
 
 from speech.recognizer import SpeechRecognizer
@@ -37,7 +41,10 @@ assistant.register_tools([
     stop_media,
     find_file,
     open_in_explorer,
-    open_file
+    open_file,
+
+    remember_text,
+    recall_text
 ])
 
 print(f"{config.ASSISTANT_NAME} iniciado.\n")
