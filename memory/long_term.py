@@ -15,12 +15,18 @@ def _load():
     if not MEMORY_FILE.exists():
         return
 
-    with MEMORY_FILE.open(
-        "r",
-        encoding="utf-8"
-    ) as f:
+    try:
 
-        memory = json.load(f)
+        with MEMORY_FILE.open(
+            "r",
+            encoding="utf-8"
+        ) as f:
+
+            memory = json.load(f)
+
+    except json.JSONDecodeError:
+
+        memory = {}
 
 def _save():
     """

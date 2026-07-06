@@ -3,7 +3,7 @@ import config
 from core.assistant import Assistant
 from prompts import SYSTEM_PROMPT
 from tools.filesystem import find_file, open_file, open_in_explorer
-
+from core.tool_registry import register_tools
 from tools.programs import open_program
 from tools.browser import open_url
 from tools.volume import set_volume
@@ -29,23 +29,7 @@ assistant = Assistant(
 )
 
 #Registros de herramientas:
-assistant.register_tools([
-    open_program,
-    open_url,
-    set_volume,
-
-    play_pause,
-    next_track,
-
-    previous_track,
-    stop_media,
-    find_file,
-    open_in_explorer,
-    open_file,
-
-    remember_text,
-    recall_text
-])
+register_tools(assistant)
 
 print(f"{config.ASSISTANT_NAME} iniciado.\n")
 
