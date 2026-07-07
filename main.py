@@ -1,23 +1,9 @@
 import config
 
 from core.assistant import Assistant
-from prompts import SYSTEM_PROMPT
-from tools.filesystem import find_file, open_file, open_in_explorer
 from core.tool_registry import register_tools
-from tools.programs import open_program
-from tools.browser import open_url
-from tools.volume import set_volume
-from tools.media import (
-    play_pause,
-    next_track,
-    previous_track,
-    stop_media,
-)
 
-from memory.long_term import (
-    remember_text,
-    recall_text,
-)
+from prompts import SYSTEM_PROMPT
 
 from speech.recognizer import SpeechRecognizer
 from speech.tts import TextToSpeech
