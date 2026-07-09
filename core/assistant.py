@@ -33,9 +33,16 @@ class Assistant:
 
         if memory_result != "No encontré recuerdos relacionados.":
 
-            self.conversation.add_assistant(memory_result)
-
-            return memory_result
+            self.conversation.add_system(
+                (
+                    "INFORMACIÓN DE MEMORIA.\n"
+                    "Responde utilizando exclusivamente "
+                    "la información proporcionada.\n"
+                    "No agregues datos técnicos, "
+                    "suposiciones ni conocimiento externo.\n\n"
+                    f"{memory_result}"
+                )
+            )
 
         response = self.brain.chat(
             self.conversation.get_messages(),

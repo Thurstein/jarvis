@@ -23,6 +23,13 @@ class Conversation:
             "content": message
         })
 
+    def add_system(self, message):
+
+        self.messages.append({
+            "role": "system",
+            "content": message
+        })
+
     def add_tool_call(self, response):
 
         self.messages.append({
