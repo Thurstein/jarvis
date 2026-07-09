@@ -2,16 +2,13 @@ import memory.long_term as long_term
 
 workspace = {}
 
-
 def set(key: str, value):
 
     workspace[key] = value
 
-
 def get(key: str, default=None):
 
     return workspace.get(key, default)
-
 
 def has(key: str) -> bool:
     """
@@ -20,14 +17,12 @@ def has(key: str) -> bool:
 
     return key in workspace
 
-
 def remove(key: str):
     """
     Elimina una clave del workspace si existe.
     """
 
     workspace.pop(key, None)
-
 
 def keys():
     """
@@ -36,11 +31,9 @@ def keys():
 
     return list(workspace.keys())
 
-
 def clear():
 
     workspace.clear()
-
 
 def items():
     """
@@ -48,7 +41,6 @@ def items():
     """
 
     return dict(workspace)
-
 
 def dump() -> str:
     """
@@ -66,14 +58,12 @@ def dump() -> str:
 
     return "\n".join(lines)
 
-
 def remember(key: str, value):
     """
     Guarda un dato en la memoria permanente.
     """
 
     return long_term.remember(key, value)
-
 
 def recall(key: str, default=None):
     """
@@ -82,10 +72,30 @@ def recall(key: str, default=None):
 
     return long_term.recall(key, default)
 
-
 def forget(key: str):
     """
     Elimina un dato de la memoria permanente.
     """
 
     return long_term.forget(key)
+
+def memory_keys():
+    """
+    Devuelve las claves de la memoria permanente.
+    """
+
+    return long_term.keys()
+
+def memory_items():
+    """
+    Devuelve todos los recuerdos almacenados.
+    """
+
+    return long_term.items()
+
+def memory_has(key: str) -> bool:
+    """
+    Indica si un recuerdo existe.
+    """
+
+    return key in long_term.keys()

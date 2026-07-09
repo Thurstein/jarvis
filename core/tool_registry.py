@@ -18,6 +18,8 @@ from tools.media import (
 from memory.long_term import (
     remember_text,
     recall_text,
+    list_memories,
+    search_memory
 )
 
 
@@ -42,4 +44,6 @@ def register_tools(assistant):
 
         remember_text,
         recall_text,
+        list_memories,
+        search_memory
     ])

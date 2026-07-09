@@ -9,7 +9,11 @@ import time
 
 class SpeechRecognizer:
 
-    def __init__(self, model_name="small"):
+    """"
+    Clase para reconocer el habla usando el modelo Whisper de OpenAI.
+    """
+
+    def __init__(self, model_name="medium"):
         print("Cargando Whisper...")
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
         print(f"Usando dispositivo: {self.device}")
@@ -64,4 +68,7 @@ class SpeechRecognizer:
             result = self.model.transcribe(tmp.name, language="es")
 
         text = result["text"]
+
+        print(f"Texto detectado: '{text}'")
+        
         return text.strip() if isinstance(text, str) else ""

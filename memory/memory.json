@@ -1,4 +1,6 @@
 {
     "favorite_color": "blue",
-    "birthdate": "21 de noviembre del 93"
+    "birthdate": "21 de noviembre del 93",
+    "GPU_Info": "Gigabyte RTX 5060 Ti de 16Gb de VRAM",
+    "CPU_Info": "AMD Ryzen 5 9600X"
 }

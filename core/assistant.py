@@ -1,5 +1,5 @@
 from brain import Brain
-
+from memory.long_term import search_memory
 from core.conversation import Conversation
 from core.tool_manager import ToolManager
 
@@ -28,6 +28,14 @@ class Assistant:
     def process(self, user_message):
 
         self.conversation.add_user(user_message)
+
+        memory_result = search_memory(user_message)
+
+        if memory_result != "No encontré recuerdos relacionados.":
+
+            self.conversation.add_assistant(memory_result)
+
+            return memory_result
 
         response = self.brain.chat(
             self.conversation.get_messages(),
