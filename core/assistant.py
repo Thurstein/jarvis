@@ -2,7 +2,7 @@ from brain import Brain
 from memory.long_term import search_memory
 from core.conversation import Conversation
 from core.tool_manager import ToolManager
-
+import time
 
 class Assistant:
 
@@ -27,6 +27,8 @@ class Assistant:
 
     def process(self, user_message):
 
+        start_time = time.perf_counter()
+
         self.conversation.add_user(user_message)
 
         memory_result = search_memory(user_message)
@@ -44,9 +46,27 @@ class Assistant:
                 )
             )
 
+        llm_start = time.perf_counter()
+
+        print(
+            f"[Mensajes] "
+            f"{len(self.conversation.get_messages())}"
+        )
+
+        print(
+            f"[Caracteres contexto] "
+            f"{sum(len(str(m.get('content', '')))
+                    for m in self.conversation.get_messages())}"
+        )
+
         response = self.brain.chat(
             self.conversation.get_messages(),
             self.tool_manager.get_tools()
+        )
+
+        print(
+            f"[LLM inicial] "
+            f"{time.perf_counter() - llm_start:.2f}s"
         )
 
         while response.tool_calls:
@@ -65,10 +85,23 @@ class Assistant:
                 )
 
             # El modelo continúa la conversación
+            llm_tool_start = time.perf_counter()
+
             response = self.brain.chat(
                 self.conversation.get_messages(),
                 self.tool_manager.get_tools()
             )
+
+            print(
+                f"[LLM post-tool] "
+                f"{time.perf_counter() - llm_tool_start:.2f}s"
+            )
+
+        elapsed = time.perf_counter() - start_time
+
+        print(
+            f"\n[Tiempo total] {elapsed:.2f}s"
+        )
 
         self.conversation.add_assistant(
             response.content

@@ -2,5 +2,10 @@
     "favorite_color": "blue",
     "birthdate": "21 de noviembre del 93",
     "GPU_Info": "Gigabyte RTX 5060 Ti de 16Gb de VRAM",
-    "CPU_Info": "AMD Ryzen 5 9600X"
+    "CPU_Info": "AMD Ryzen 5 9600X",
+    "playlist_folder_location": "carpeta 'listas de reproducción' dentro de la carpeta de música, archivos en formato .xspf",
+    "no_repetir_chistes": "Evitar repetir el mismo chiste en conversaciones consecutivas.",
+    "RAM": "32 GB de memoria RAM de tipo DDR5",
+    "user_resolution": "1080p",
+    "playlist_opening_procedure": "Al abrir una lista de reproducción, solo ejecutar la herramienta 'open_file' y evitar activar 'play_pause' para prevenir que la reproducción se interrumpa."
 }

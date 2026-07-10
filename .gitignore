@@ -8,7 +8,7 @@ venv/
 env/
 
 # Base de datos local
-memory/memories.db
+memory/memory.json
 
 # Archivos temporales
 *.tmp
