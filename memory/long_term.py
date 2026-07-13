@@ -1,5 +1,6 @@
 from pathlib import Path
 import json
+import unicodedata
 
 MEMORY_FILE = Path("memory/memory.json")
 
@@ -137,35 +138,85 @@ def list_memories() -> str:
 
     return ", ".join(memory_keys)
 
+def normalize(text: str) -> str:
+
+    return "".join(
+        c for c in unicodedata.normalize(
+            "NFD",
+            text
+        )
+        if unicodedata.category(c) != "Mn"
+    ).lower()
+
 def search_memory(query: str) -> str:
     """
-    Busca recuerdos relacionados con una palabra
-    o concepto.
+    Busca recuerdos almacenados en la memoria.
+
+    IMPORTANTE:
+
+    - La información devuelta es la única fuente válida.
+    - Nunca inventar, completar o inferir datos no presentes.
+    - Nunca asumir gustos, preferencias o hechos a partir de recuerdos parciales.
+    - Si un dato no aparece explícitamente en los resultados, se considera desconocido.
+    - Responder únicamente usando la información devuelta.
+    - Si devuelve "No encontré recuerdos relacionados.", significa que no existe información almacenada.
     """
 
     _load()
 
-    words = query.lower().split()
+    words = (
+        normalize(query)
+        .replace("¿", "")
+        .replace("?", "")
+        .replace(",", "")
+        .replace(".", "")
+        .split()
+    )
 
     matches = []
+    scores = []
 
     for key, value in memory.items():
 
-        text = f"{key} {value}".lower()
+        text = normalize(
+            f"{key} {value}"
+        )
+
+        text_words = text.replace("_", " ").split()
+
+        score = 0
 
         for word in words:
 
-            if word in text:
+            if len(word) <= 3:
+                continue
 
-                matches.append(
-                    f"{key}: {value}"
-                )
+            if word in text_words:
+                score += 1
 
-                break
+        if score > 0:
+
+            matches.append(
+                f"{key}: {value}"
+            )
+
+            scores.append(score)
+    
+    print("\n[Memory search]")
+    print("Words:", words)
+    print("Matches:", matches)
 
     if not matches:
         return "No encontré recuerdos relacionados."
 
-    return "\n".join(matches)
+    matches = [
+        item
+        for _, item in sorted(
+            zip(scores, matches),
+            reverse=True
+        )
+    ]
+
+    return "\n".join(matches[:6])
 
 _load()
