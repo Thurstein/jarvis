@@ -316,3 +316,27 @@ def open_in_explorer(path: str) -> str:
     )
 
     return f"Carpeta abierta: {matches[0]}"
+
+def create_text_file(
+    filename: str,
+    content: str
+) -> str:
+    """
+    Crea un archivo de texto dentro de Documents.
+    """
+
+    documents = Path.home() / "Documents"
+
+    file_path = documents / filename
+
+    file_path.write_text(
+        content,
+        encoding="utf-8"
+    )
+
+    workspace.set(
+        "last_file",
+        str(file_path)
+    )
+
+    return f"Archivo creado: {file_path}"

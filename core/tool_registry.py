@@ -2,6 +2,7 @@ from tools.filesystem import (
     find_file,
     open_file,
     open_in_explorer,
+    create_text_file,
 )
 
 from tools.programs import open_program
@@ -45,5 +46,7 @@ def register_tools(assistant):
         remember_text,
         recall_text,
         list_memories,
-        search_memory
+        search_memory,
+
+        create_text_file,
     ])
