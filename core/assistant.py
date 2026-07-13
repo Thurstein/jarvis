@@ -29,19 +29,37 @@ class Assistant:
 
         start_time = time.perf_counter()
 
+        self.conversation.messages = [
+            m
+            for m in self.conversation.messages
+            if not (
+                m["role"] == "system"
+                and m.get("content", "").startswith(
+                    "INFORMACIÓN DE MEMORIA."
+                )
+            )
+        ]
+
         self.conversation.add_user(user_message)
 
         memory_result = search_memory(user_message)
+
+        print("\n[Memory result]")
+        print(memory_result)
+        print()
 
         if memory_result != "No encontré recuerdos relacionados.":
 
             self.conversation.add_system(
                 (
                     "INFORMACIÓN DE MEMORIA.\n"
-                    "Responde utilizando exclusivamente "
-                    "la información proporcionada.\n"
-                    "No agregues datos técnicos, "
-                    "suposiciones ni conocimiento externo.\n\n"
+                    "La siguiente información responde "
+                    "directamente a la consulta actual.\n"
+                    "Debes responder usando esta información.\n"
+                    "NO uses herramientas.\n"
+                    "NO busques archivos.\n"
+                    "NO solicites información adicional.\n"
+                    "NO hagas suposiciones.\n\n"
                     f"{memory_result}"
                 )
             )

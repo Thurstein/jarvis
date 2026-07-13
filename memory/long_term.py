@@ -184,6 +184,9 @@ def search_memory(query: str) -> str:
 
         text_words = text.replace("_", " ").split()
 
+        # print(f"Key: {key}")
+        # print(f"Text words: {text_words}")
+
         score = 0
 
         for word in words:
@@ -191,10 +194,19 @@ def search_memory(query: str) -> str:
             if len(word) <= 3:
                 continue
 
-            if word in text_words:
-                score += 1
+            for text_word in text_words:
+
+                if word == text_word:
+                    score += 3
+
+                elif word in text_word or text_word in word:
+                    score += 1
 
         if score > 0:
+            print(f"Match: {key} | score={score}")
+
+            if key.startswith("musica_playlist_"):
+                score += 5
 
             matches.append(
                 f"{key}: {value}"
@@ -202,9 +214,9 @@ def search_memory(query: str) -> str:
 
             scores.append(score)
     
-    print("\n[Memory search]")
-    print("Words:", words)
-    print("Matches:", matches)
+    # print("\n[Memory search]")
+    # print("Words:", words)
+    # print("Matches:", matches)
 
     if not matches:
         return "No encontré recuerdos relacionados."
