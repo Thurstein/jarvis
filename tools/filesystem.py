@@ -382,20 +382,23 @@ def overwrite_text_file(path: str, content: str) -> str:
     """
     p = Path(path)
 
-    if not p.exists() and p.parent == Path("."):
+    if path.lower() in {
+        "lo",
+        "léelo",
+        "leelo",
+        "ese archivo",
+        "el archivo"
+    }:
 
-        result = find_file(p.name)
+        last_file = workspace.get("last_file")
 
-        if result.startswith("No encontré"):
-            return result
+        if last_file:
+            p = Path(last_file)
 
-        if "\n" in result:
-            return (
-                "Encontré varios archivos:\n"
-                + result
-            )
+    p, error = _resolve_file_path(path)
 
-        p = Path(result)
+    if error:
+        return error
 
     with open(p, "w", encoding="utf-8") as f:
         f.write(content)
@@ -426,20 +429,10 @@ def read_text_file(path: str) -> str:
 
     # Si solo recibimos un nombre de archivo,
     # intentar localizarlo.
-    if not p.exists() and p.parent == Path("."):
+    p, error = _resolve_file_path(path)
 
-        result = find_file(p.name)
-
-        if result.startswith("No encontré"):
-            return result
-
-        if "\n" in result:
-            return (
-                "Encontré varios archivos:\n"
-                + result
-            )
-
-        p = Path(result)
+    if error:
+        return error
 
     if not p.exists():
         return "El archivo no existe."
@@ -455,3 +448,41 @@ def read_text_file(path: str) -> str:
     return p.read_text(
         encoding="utf-8"
     )
+
+def delete_file(path: str) -> str:
+    """
+    Elimina un archivo.
+    """
+
+    p = Path(path)
+
+    if not p.exists():
+        return "El archivo no existe."
+
+    if not p.is_file():
+        return "La ruta indicada no es un archivo."
+
+    p.unlink()
+
+    return f"Archivo eliminado: {p.name}"
+
+def _resolve_file_path(path: str):
+
+    p = Path(path)
+
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return Path(), result
+
+        if "\n" in result:
+            return (
+                Path(),
+                "Encontré varios archivos:\n" + result
+            )
+
+        p = Path(result)
+
+    return p, None

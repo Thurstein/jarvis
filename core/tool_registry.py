@@ -6,6 +6,7 @@ from tools.filesystem import (
     read_text_file,
     overwrite_text_file,
     append_text_file,
+    delete_file,
 )
 
 from tools.programs import open_program
@@ -55,4 +56,5 @@ def register_tools(assistant):
         read_text_file,
         overwrite_text_file,
         append_text_file,
+        delete_file,
     ])
