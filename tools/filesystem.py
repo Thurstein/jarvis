@@ -340,3 +340,20 @@ def create_text_file(
     )
 
     return f"Archivo creado: {file_path}"
+
+def read_text_file(path: str) -> str:
+    """
+    Lee el contenido de un archivo de texto.
+    """
+
+    p = Path(path)
+
+    if not p.exists():
+        return "El archivo no existe."
+
+    if not p.is_file():
+        return "La ruta indicada no es un archivo."
+
+    return p.read_text(
+        encoding="utf-8"
+    )

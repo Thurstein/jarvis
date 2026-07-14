@@ -32,7 +32,7 @@ class TextToSpeech:
         import re
 
         text = re.sub(
-            r"[A-Za-z]:\\[^\n]+",
+            r"[A-Za-z]:\\[^\s]+",
             "esa ubicación",
             text
         )

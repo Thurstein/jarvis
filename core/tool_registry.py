@@ -3,6 +3,7 @@ from tools.filesystem import (
     open_file,
     open_in_explorer,
     create_text_file,
+    read_text_file,
 )
 
 from tools.programs import open_program
@@ -49,4 +50,5 @@ def register_tools(assistant):
         search_memory,
 
         create_text_file,
+        read_text_file,
     ])
