@@ -348,6 +348,19 @@ def read_text_file(path: str) -> str:
 
     p = Path(path)
 
+    if path.lower() in {
+        "lo",
+        "léelo",
+        "leelo",
+        "ese archivo",
+        "el archivo"
+    }:
+
+        last_file = workspace.get("last_file")
+
+        if last_file:
+            p = Path(last_file)
+
     if not p.exists():
         return "El archivo no existe."
 
