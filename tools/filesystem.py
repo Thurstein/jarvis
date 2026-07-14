@@ -400,6 +400,8 @@ def overwrite_text_file(path: str, content: str) -> str:
     with open(p, "w", encoding="utf-8") as f:
         f.write(content)
 
+    workspace.set("last_file", str(p))
+
     return f"Archivo sobrescrito: {p.name}"
 
 def read_text_file(path: str) -> str:
@@ -421,6 +423,23 @@ def read_text_file(path: str) -> str:
 
         if last_file:
             p = Path(last_file)
+
+    # Si solo recibimos un nombre de archivo,
+    # intentar localizarlo.
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
 
     if not p.exists():
         return "El archivo no existe."
