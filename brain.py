@@ -10,14 +10,14 @@ class Brain:
 
     def chat(self, messages, tools=None):
 
-        print(
-            f"[Messages] {len(messages)}"
-        )
+        # print(
+        #     f"[Messages] {len(messages)}"
+        # )
 
-        print(
-            f"[Caracteres contexto] "
-            f"{sum(len(str(m)) for m in messages)}"
-        )
+        # print(
+        #     f"[Caracteres contexto] "
+        #     f"{sum(len(str(m)) for m in messages)}"
+        # )
 
         start = time.perf_counter()
 
@@ -31,24 +31,24 @@ class Brain:
             }
         )
         
-        print(
-            f"[Ollama] "
-            f"{time.perf_counter() - start:.2f}s"
-        )
+        # print(
+        #     f"[Ollama] "
+        #     f"{time.perf_counter() - start:.2f}s"
+        # )
 
-        print(
-            f"[Prompt tokens] "
-            f"{response.prompt_eval_count}"
-        )
+        # print(
+        #     f"[Prompt tokens] "
+        #     f"{response.prompt_eval_count}"
+        # )
 
-        print(
-            f"[Tokens] "
-            f"{response.eval_count}"
-        )
+        # print(
+        #     f"[Tokens] "
+        #     f"{response.eval_count}"
+        # )
 
-        print(
-            f"[Eval duration] "
-            f"{response.eval_duration}"
-        )
+        # print(
+        #     f"[Eval duration] "
+        #     f"{response.eval_duration}"
+        # )
 
         return response.message

@@ -203,7 +203,7 @@ def search_memory(query: str) -> str:
                     score += 1
 
         if score > 0:
-            print(f"Match: {key} | score={score}")
+            # print(f"Match: {key} | score={score}")
 
             if key.startswith("musica_playlist_"):
                 score += 5

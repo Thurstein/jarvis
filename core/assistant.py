@@ -44,9 +44,9 @@ class Assistant:
 
         memory_result = search_memory(user_message)
 
-        print("\n[Memory result]")
-        print(memory_result)
-        print()
+        # print("\n[Memory result]")
+        # print(memory_result)
+        # print()
 
         if memory_result != "No encontré recuerdos relacionados.":
 

@@ -354,6 +354,11 @@ def read_text_file(path: str) -> str:
     if not p.is_file():
         return "La ruta indicada no es un archivo."
 
+    workspace.set(
+        "last_file",
+        str(p)
+    )
+
     return p.read_text(
         encoding="utf-8"
     )
