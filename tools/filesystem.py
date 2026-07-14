@@ -341,6 +341,62 @@ def create_text_file(
 
     return f"Archivo creado: {file_path}"
 
+def append_text_file(path: str, content: str) -> str:
+    """
+    Agrega texto al final de un archivo.
+    """
+
+    p = Path(path)
+
+    # Si el archivo no existe:
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
+    # Si el archivo existe:
+    with open(p, "a", encoding="utf-8") as f:
+        f.write("\n" + content)
+
+    return f"Texto agregado al final del archivo: {p.name}"
+
+def overwrite_text_file(path: str, content: str) -> str:
+    """
+    Reemplaza completamente el contenido
+    de un archivo de texto.
+    """
+    p = Path(path)
+
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
+    with open(p, "w", encoding="utf-8") as f:
+        f.write(content)
+
+    return f"Archivo sobrescrito: {p.name}"
+
 def read_text_file(path: str) -> str:
     """
     Lee el contenido de un archivo de texto.

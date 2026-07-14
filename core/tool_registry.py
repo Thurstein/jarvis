@@ -4,6 +4,8 @@ from tools.filesystem import (
     open_in_explorer,
     create_text_file,
     read_text_file,
+    overwrite_text_file,
+    append_text_file,
 )
 
 from tools.programs import open_program
@@ -51,4 +53,6 @@ def register_tools(assistant):
 
         create_text_file,
         read_text_file,
+        overwrite_text_file,
+        append_text_file,
     ])
