@@ -364,9 +364,14 @@ def append_text_file(path: str, content: str) -> str:
 
         p = Path(result)
 
+    if not p.exists():
+        return "El archivo no existe."
+
     # Si el archivo existe:
     with open(p, "a", encoding="utf-8") as f:
         f.write("\n" + content)
+
+    workspace.set("last_file", str(p))
 
     return f"Texto agregado al final del archivo: {p.name}"
 
