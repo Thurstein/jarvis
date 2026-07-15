@@ -456,6 +456,21 @@ def delete_file(path: str) -> str:
 
     p = Path(path)
 
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
     if not p.exists():
         return "El archivo no existe."
 
@@ -464,7 +479,21 @@ def delete_file(path: str) -> str:
 
     p.unlink()
 
+    if workspace.get("last_file") == str(p):
+        workspace.set("last_file", "")
+
+    workspace.set("last_deleted_file", str(p))
+
     return f"Archivo eliminado: {p.name}"
+
+# def delete_file(path: str) -> str:
+#     """
+#     Elimina un archivo.
+#     """
+#     return (
+#         "El borrado de archivos está deshabilitado "
+#         "hasta implementar confirmación de seguridad."
+#     )
 
 def _resolve_file_path(path: str):
 
