@@ -2,6 +2,7 @@ from pathlib import Path
 from memory import workspace
 import subprocess
 import unicodedata
+import shutil
 import os
 
 SEARCH_ROOTS = [
@@ -570,6 +571,55 @@ def move_file(path: str, destination: str) -> str:
     workspace.set("last_file", str(new_path))
 
     return f"Archivo movido a: {new_path}"
+
+def copy_file(path: str, destination: str) -> str:
+    """
+    Copia un archivo a otra carpeta.
+    """
+
+    p = Path(path)
+
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
+    if not p.exists():
+        return "El archivo no existe."
+
+    if not p.is_file():
+        return "La ruta indicada no es un archivo."
+
+    matches = _find_directory(destination)
+
+    if not matches:
+        return "No encontré la carpeta destino."
+
+    if len(matches) > 1:
+        return (
+            "Encontré varias carpetas:\n"
+            + "\n".join(str(m) for m in matches)
+        )
+
+    destination_folder = matches[0]
+
+    new_path = destination_folder / p.name
+
+    shutil.copy2(p, new_path)
+
+    workspace.set("last_file", str(new_path))
+
+    return f"Archivo copiado a: {new_path}"
 
 def _resolve_file_path(path: str):
 
