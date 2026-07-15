@@ -646,6 +646,25 @@ def list_directory(path: str) -> str:
 
     return "\n".join(item.name for item in items[:50])
 
+def create_directory(name: str) -> str:
+    """
+    Crea una carpeta dentro de Documents.
+    """
+
+    last_directory = workspace.get("last_directory")
+
+    if last_directory:
+        folder = Path(last_directory) / name
+    else:
+        folder = Path.home() / "Documents" / name
+
+    if folder.exists():
+        return "La carpeta ya existe."
+
+    folder.mkdir()
+
+    return f"Carpeta creada: {folder}"
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
