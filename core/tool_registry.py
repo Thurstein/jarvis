@@ -9,6 +9,8 @@ from tools.filesystem import (
     delete_file,
     rename_file,
     move_file,
+    copy_file,
+    list_directory,
 )
 
 from tools.programs import open_program
@@ -61,4 +63,6 @@ def register_tools(assistant):
         delete_file,
         rename_file,
         move_file,
+        copy_file,
+        list_directory,
     ])

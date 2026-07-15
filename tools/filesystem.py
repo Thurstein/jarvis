@@ -621,6 +621,31 @@ def copy_file(path: str, destination: str) -> str:
 
     return f"Archivo copiado a: {new_path}"
 
+def list_directory(path: str) -> str:
+    """
+    Lista el contenido de una carpeta.
+    """
+
+    matches = _find_directory(path)
+
+    if not matches:
+        return "No encontré ninguna carpeta con ese nombre."
+
+    if len(matches) > 1:
+        return (
+            "Encontré varias carpetas:\n"
+            + "\n".join(str(m) for m in matches)
+        )
+
+    folder = matches[0]
+
+    items = list(folder.iterdir())
+
+    if not items:
+        return f"La carpeta '{folder.name}' está vacía."
+
+    return "\n".join(item.name for item in items[:50])
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
