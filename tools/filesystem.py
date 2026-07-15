@@ -522,6 +522,55 @@ def rename_file(path: str, new_name: str) -> str:
 
     return f"Archivo renombrado a: {new_path.name}"
 
+def move_file(path: str, destination: str) -> str:
+    """
+    Mueve un archivo a otra carpeta.
+    """
+
+    p = Path(path)
+
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
+    if not p.exists():
+        return "El archivo no existe."
+
+    if not p.is_file():
+        return "La ruta indicada no es un archivo."
+
+    matches = _find_directory(destination)
+
+    if not matches:
+        return "No encontré la carpeta destino."
+
+    if len(matches) > 1:
+        return (
+            "Encontré varias carpetas:\n"
+            + "\n".join(str(m) for m in matches)
+        )
+
+    destination_folder = matches[0]
+
+    new_path = destination_folder / p.name
+
+    p.rename(new_path)
+
+    workspace.set("last_file", str(new_path))
+
+    return f"Archivo movido a: {new_path}"
+
 def _resolve_file_path(path: str):
 
     p = Path(path)

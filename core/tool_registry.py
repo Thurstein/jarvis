@@ -8,6 +8,7 @@ from tools.filesystem import (
     append_text_file,
     delete_file,
     rename_file,
+    move_file,
 )
 
 from tools.programs import open_program
@@ -59,4 +60,5 @@ def register_tools(assistant):
         append_text_file,
         delete_file,
         rename_file,
+        move_file,
     ])
