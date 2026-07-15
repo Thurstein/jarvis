@@ -486,14 +486,41 @@ def delete_file(path: str) -> str:
 
     return f"Archivo eliminado: {p.name}"
 
-# def delete_file(path: str) -> str:
-#     """
-#     Elimina un archivo.
-#     """
-#     return (
-#         "El borrado de archivos está deshabilitado "
-#         "hasta implementar confirmación de seguridad."
-#     )
+def rename_file(path: str, new_name: str) -> str:
+    """
+    Renombra un archivo.
+    """
+
+    p = Path(path)
+
+    if not p.exists() and p.parent == Path("."):
+
+        result = find_file(p.name)
+
+        if result.startswith("No encontré"):
+            return result
+
+        if "\n" in result:
+            return (
+                "Encontré varios archivos:\n"
+                + result
+            )
+
+        p = Path(result)
+
+    if not p.exists():
+        return "El archivo no existe."
+
+    if not p.is_file():
+        return "La ruta indicada no es un archivo."
+
+    new_path = p.with_name(new_name)
+
+    p.rename(new_path)
+
+    workspace.set("last_file", str(new_path))
+
+    return f"Archivo renombrado a: {new_path.name}"
 
 def _resolve_file_path(path: str):
 

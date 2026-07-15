@@ -7,6 +7,7 @@ from tools.filesystem import (
     overwrite_text_file,
     append_text_file,
     delete_file,
+    rename_file,
 )
 
 from tools.programs import open_program
@@ -57,4 +58,5 @@ def register_tools(assistant):
         overwrite_text_file,
         append_text_file,
         delete_file,
+        rename_file,
     ])
