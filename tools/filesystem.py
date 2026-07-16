@@ -455,22 +455,10 @@ def delete_file(path: str) -> str:
     Elimina un archivo.
     """
 
-    p = Path(path)
+    p, error = _resolve_file_path(path)
 
-    if not p.exists() and p.parent == Path("."):
-
-        result = find_file(p.name)
-
-        if result.startswith("No encontré"):
-            return result
-
-        if "\n" in result:
-            return (
-                "Encontré varios archivos:\n"
-                + result
-            )
-
-        p = Path(result)
+    if error:
+        return error
 
     if not p.exists():
         return "El archivo no existe."
@@ -492,22 +480,10 @@ def rename_file(path: str, new_name: str) -> str:
     Renombra un archivo.
     """
 
-    p = Path(path)
+    p, error = _resolve_file_path(path)
 
-    if not p.exists() and p.parent == Path("."):
-
-        result = find_file(p.name)
-
-        if result.startswith("No encontré"):
-            return result
-
-        if "\n" in result:
-            return (
-                "Encontré varios archivos:\n"
-                + result
-            )
-
-        p = Path(result)
+    if error:
+        return error
 
     if not p.exists():
         return "El archivo no existe."
@@ -528,22 +504,10 @@ def move_file(path: str, destination: str) -> str:
     Mueve un archivo a otra carpeta.
     """
 
-    p = Path(path)
+    p, error = _resolve_file_path(path)
 
-    if not p.exists() and p.parent == Path("."):
-
-        result = find_file(p.name)
-
-        if result.startswith("No encontré"):
-            return result
-
-        if "\n" in result:
-            return (
-                "Encontré varios archivos:\n"
-                + result
-            )
-
-        p = Path(result)
+    if error:
+        return error
 
     if not p.exists():
         return "El archivo no existe."
@@ -577,7 +541,10 @@ def copy_file(path: str, destination: str) -> str:
     Copia un archivo a otra carpeta.
     """
 
-    p = Path(path)
+    p, error = _resolve_file_path(path)
+
+    if error:
+        return error
 
     if not p.exists() and p.parent == Path("."):
 
