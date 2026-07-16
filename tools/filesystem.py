@@ -698,6 +698,20 @@ def go_up_directory() -> str:
 
     return f"Directorio actual: {parent}"
 
+def go_to_documents() -> str:
+    """
+    Establece Documents como directorio actual.
+    """
+
+    documents = Path.home() / "Documents"
+
+    workspace.set(
+        "last_directory",
+        str(documents)
+    )
+
+    return f"Directorio actual: {documents}"
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
