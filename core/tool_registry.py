@@ -15,6 +15,7 @@ from tools.filesystem import (
     get_current_directory,
     go_up_directory,
     go_to_documents,
+    delete_directory,
 )
 
 from tools.programs import open_program
@@ -73,4 +74,5 @@ def register_tools(assistant):
         get_current_directory,
         go_up_directory,
         go_to_documents,
+        delete_directory,
     ])

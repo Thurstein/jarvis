@@ -679,6 +679,31 @@ def go_to_documents() -> str:
 
     return f"Directorio actual: {documents}"
 
+def delete_directory(path: str) -> str:
+    """
+    Elimina una carpeta vacía.
+    """
+
+    matches = _find_directory(path)
+
+    if not matches:
+        return "No encontré ninguna carpeta con ese nombre."
+
+    if len(matches) > 1:
+        return (
+            "Encontré varias carpetas:\n"
+            + "\n".join(str(m) for m in matches)
+        )
+
+    folder = matches[0]
+
+    try:
+        folder.rmdir()
+    except OSError:
+        return "La carpeta no está vacía."
+
+    return f"Carpeta eliminada: {folder.name}"
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
