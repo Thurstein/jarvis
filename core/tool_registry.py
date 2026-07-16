@@ -13,6 +13,7 @@ from tools.filesystem import (
     list_directory,
     create_directory,
     get_current_directory,
+    go_up_directory,
 )
 
 from tools.programs import open_program
@@ -69,4 +70,5 @@ def register_tools(assistant):
         list_directory,
         create_directory,
         get_current_directory,
+        go_up_directory,
     ])

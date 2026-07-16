@@ -677,6 +677,27 @@ def get_current_directory() -> str:
 
     return last_directory
 
+def go_up_directory() -> str:
+    """
+    Sube un nivel en la carpeta actual.
+    """
+
+    last_directory = workspace.get("last_directory")
+
+    if not last_directory:
+        return "No hay ninguna carpeta activa."
+
+    current = Path(last_directory)
+
+    parent = current.parent
+
+    workspace.set(
+        "last_directory",
+        str(parent)
+    )
+
+    return f"Directorio actual: {parent}"
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
