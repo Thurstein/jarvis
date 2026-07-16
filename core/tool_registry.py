@@ -11,7 +11,8 @@ from tools.filesystem import (
     move_file,
     copy_file,
     list_directory,
-    create_directory
+    create_directory,
+    get_current_directory,
 )
 
 from tools.programs import open_program
@@ -66,5 +67,6 @@ def register_tools(assistant):
         move_file,
         copy_file,
         list_directory,
-        create_directory
+        create_directory,
+        get_current_directory,
     ])

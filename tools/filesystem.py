@@ -665,6 +665,18 @@ def create_directory(name: str) -> str:
 
     return f"Carpeta creada: {folder}"
 
+def get_current_directory() -> str:
+    """
+    Devuelve la carpeta actual de trabajo.
+    """
+
+    last_directory = workspace.get("last_directory")
+
+    if not last_directory:
+        return "No hay ninguna carpeta activa."
+
+    return last_directory
+
 def _resolve_file_path(path: str):
 
     p = Path(path)
