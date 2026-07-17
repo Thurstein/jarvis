@@ -8,7 +8,6 @@ from prompts import SYSTEM_PROMPT
 from speech.recognizer import SpeechRecognizer
 from speech.tts import TextToSpeech
 
-
 assistant = Assistant(
     SYSTEM_PROMPT,
     config.ASSISTANT_NAME

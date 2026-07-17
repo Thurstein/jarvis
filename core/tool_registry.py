@@ -36,6 +36,8 @@ from memory.long_term import (
     search_memory
 )
 
+from vision.screenshot import take_screenshot
+
 
 def register_tools(assistant):
     """
@@ -61,6 +63,7 @@ def register_tools(assistant):
         list_memories,
         search_memory,
 
+        #File system
         create_text_file,
         read_text_file,
         overwrite_text_file,
@@ -75,4 +78,7 @@ def register_tools(assistant):
         go_up_directory,
         go_to_documents,
         delete_directory,
+
+        #Vision
+        take_screenshot,
     ])
